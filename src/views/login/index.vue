@@ -3,19 +3,19 @@
     <el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left"
              label-width="0px"
              class="card-box login-form">
-      <h3 class="title">Management System</h3>
+      <h3 class="title">Management Tools System</h3>
       <el-form-item prop="username">
         <span class="svg-container svg-container_login">
           <icon-svg icon-class="yonghuming"/>
         </span>
-        <el-input v-model="loginForm.username" autoComplete="on" placeholder="邮箱"/>
+        <el-input v-model="loginForm.username" autoComplete="on" placeholder="username"/>
       </el-form-item>
       <el-form-item prop="password">
         <span class="svg-container">
           <icon-svg icon-class="mima"></icon-svg>
         </span>
         <el-input type="password" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on"
-                  placeholder="密码"></el-input>
+                  placeholder="password"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
@@ -73,7 +73,7 @@
   .login-container {
     @include relative;
     height: 100vh;
-    background-image: url("http://cdn2.tstatic.net/tribunnews/foto/images/preview/visual-udara-terminal-petikemas-makassar_20160317_144015.jpg");
+    background-image: url("http://www.tpk-mks.co.id/images/slide2.jpg");
     input:-webkit-autofill {
       -webkit-box-shadow: 0 0 0px 1000px #293444 inset !important;
       -webkit-text-fill-color: #fff !important;

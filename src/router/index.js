@@ -13,10 +13,10 @@ export const constantRouterMap = [
     path: '/',
     component: Layout,
     redirect: '/dashboard',
-    name: '首页',
+    name: '',
     hidden: true,
     children: [{
-      path: 'dashboard', component: _import('dashboard/index')
+      path: 'dashboard', component: _import('dashboard/admin/index')
     }]
   }
 ]
@@ -27,22 +27,32 @@ export default new Router({
 })
 export const asyncRouterMap = [
   {
-    path: '/system',
+    path: '/dashboard',
     component: Layout,
-    redirect: '/system/article',
-    name: '功能模块',
+    redirect: '/dashboard',
+    name: '',
     meta: {title: 'functional module', icon: 'tree'},
     children: [
       {
-        path: 'article',
-        name: '文章',
-        component: _import('article/article'),
-        meta: {title: 'article', icon: 'example'},
-        menu: 'article'
-      },
+        path: 'dashboard',
+        component: _import('dashboard/admin/index'),
+        meta: {title: 'Dashboard', icon: 'example'},
 
+      },
     ]
   },
+  {
+     path: '/employee',
+     component: Layout,
+     redirect: '/employee/',
+     name: '',
+     meta: {title: 'Employee', icon: 'table'},
+     children: [
+      {
+        path: '', name: 'Employee List', component: _import('employee/employee'), meta: {title: 'Employee List', icon: 'user'}, menu: 'employee'
+      },
+     ]
+    },
   {
     path: '/user',
     component: Layout,
@@ -62,32 +72,98 @@ export const asyncRouterMap = [
       },
     ]
   },
-
   {
-   path: '/employee',
+   path: '/reporter',
    component: Layout,
-   redirect: '/employee/',
+   redirect: '/reporter/',
    name: '',
-   meta: {title: 'Employee', icon: 'table'},
+   meta: {title: 'Submit Problems', icon: 'table'},
    children: [
     {
-      path: '', name: 'Employee List', component: _import('employee/employee'), meta: {title: 'Employee List', icon: 'user'}, menu: 'employee'
+      path: '', name: 'Reporter', component: _import('reporter/reporter'), meta: {title: 'Submit Problems ', icon: 'user'}, menu: 'Reporter'
     },
    ]
   },
-
   {
-     path: '/toolsCategory',
+     path: '/quality',
      component: Layout,
-     redirect: '/toolsCategory/',
+     redirect: '/quality/',
      name: '',
-     meta: {title: 'Tools Category', icon: 'table'},
+     meta: {title: 'Quality', icon: 'table'},
+     children: [
+     {
+        path: '', name: 'Quality List', component: _import('quality/quality'), meta: {title: 'Quality List', icon: 'user'}, menu: 'quality control'
+     },
+    ]
+  },
+  {
+     path: '/master',
+     component: Layout,
+     redirect: '/master/',
+     name: '',
+     meta: {title: 'Master Data', icon: 'table'},
+     children: [
+     {
+       path: '', name: 'Problems List',
+       component: _import('master/problems'),
+       meta: {title: 'Problems ', icon: 'user'},
+       menu: 'Problems Management'
+     },
+     {
+       path: 'sparepart', name: 'Sparepart List',
+       component: _import('master/sparepart'),
+       meta: {title: 'Sparepart ', icon: 'user'},
+       menu: 'Sparepart Management'
+     },
+     {
+        path: 'procces', name: 'Proccess List',
+        component: _import('master/procces'),
+        meta: {title: 'Proccess ', icon: 'user'},
+        menu: 'Proccess Management'
+     },
+     {
+        path: 'category',
+        name: 'Tools Category List',
+        component: _import('toolscategory/toolscategory'),
+        meta: {title: 'Tools Category ', icon: 'user'},
+        menu: 'tools category'
+     },
+     {
+        path: 'tools',
+        name: 'Tools List',
+        component: _import('toolscategory/tools'),
+        meta: {title: 'Tools', icon: 'user'},
+        menu: 'tools management'
+     },
+    ]
+   },
+  {
+     path: '/maintenance',
+     component: Layout,
+     redirect: '/maintenance/',
+     name: '',
+     meta: {title: 'Maintenance', icon: 'table'},
      children: [
       {
-        path: '', name: 'Tools Category List', component: _import('toolscategory/toolscategory'), meta: {title: 'Tools Category List ', icon: 'user'}, menu: 'tools category'
+        path: '', name: 'Maintenance', component: _import('reporter/maintenance'), meta: {title: 'Maintenance ', icon: 'user'}
       },
      ]
     },
-
+  {
+      path: '/system',
+      component: Layout,
+      redirect: '/system/article',
+      name: '功能模块',
+      meta: {title: '功能模块', icon: 'tree'},
+      children: [
+        {
+          path: 'article',
+          name: '文章',
+          component: _import('article/article'),
+          meta: {title: '文章', icon: 'example'},
+          menu: 'article'
+        },
+      ]
+    },
   {path: '*', redirect: '/404', hidden: true}
 ]

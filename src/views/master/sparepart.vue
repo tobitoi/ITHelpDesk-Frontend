@@ -2,11 +2,10 @@
   <div class="app-container">
     <div class="filter-container">
       <el-form>
-              <el-form-item>
-                <el-button type="primary" icon="plus" @click="showCreate" v-if="hasPerm('employee:add')">Create
-                </el-button>
-              </el-form-item>
-            </el-form>
+        <el-form-item>
+           <el-button type="primary" icon="plus" @click="showCreate" v-if="hasPerm('sparepart:add')">Create</el-button>
+        </el-form-item>
+      </el-form>
     </div>
     <el-table :data="list"
       v-loading.body="listLoading"
@@ -18,12 +17,11 @@
           <span v-text="getIndex(scope.$index)"> </span>
         </template>
       </el-table-column>
+      <el-table-column align="center" label="kode" prop="kode" style="width: 60px;"></el-table-column>
       <el-table-column align="center" label="Name" prop="name" style="width: 60px;"  ></el-table-column>
-      <el-table-column align="center" label="Gender" prop="gender" style="width: 60px;"></el-table-column>
-      <el-table-column align="center" label="Street" prop="street" style="width: 60px;"></el-table-column>
-      <el-table-column align="center" label="Action" width="220" v-if="hasPerm('employee:update')">
+      <el-table-column align="center" label="Action" width="220" v-if="hasPerm('sparepart:update')">
         <template slot-scope="scope">
-          <el-button type="primary" icon="edit" @click="showUpdate(scope.$index,scope.$row)">Edit</el-button>
+          <el-button type="primary" icon="edit" @click="showUpdate(scope.$index)">Edit</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -37,31 +35,21 @@
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form class="small-space" :model="tempEmployee" label-position="left" label-width="80px"
+      <el-form class="small-space" :model="tempSparepart" label-position="left" label-width="80px"
                style='width: 300px; margin-left:50px;'>
-        <el-form-item label="user Id" required>
-          <el-input type="text" v-model="tempEmployee.userId">
+        <el-form-item label="Kode" required>
+          <el-input type="text" v-model="tempSparepart.kode">
           </el-input>
         </el-form-item>
-        <el-form-item label="name"  required>
-          <el-input type="text" v-model="tempEmployee.name">
-          </el-input>
-        </el-form-item>
-        <el-form-item label="gender" required>
-         <el-select v-model="tempEmployee.gender" placeholder="Gender">
-              <el-option label="Man" value="Man"></el-option>
-              <el-option label="Woman" value="Woman"></el-option>
-         </el-select>
-        </el-form-item>
-        <el-form-item label="street" required>
-          <el-input type="text" v-model="tempEmployee.street">
+        <el-form-item label="Name"  required>
+          <el-input type="text" v-model="tempSparepart.name">
           </el-input>
         </el-form-item>
        </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">Cancel</el-button>
-        <el-button v-if="dialogStatus=='create'" type="success" @click="createEmployee">Create</el-button>
-        <el-button type="primary" v-else @click="updateEmployee">Modify</el-button>
+        <el-button v-if="dialogStatus=='create'" type="success" @click="createSparepart">Create</el-button>
+        <el-button type="primary" v-else @click="updateSparepart">Modify</el-button>
       </div>
     </el-dialog>
   </div>
@@ -81,15 +69,12 @@
         dialogStatus: 'create',
         dialogFormVisible: false,
         textMap: {
-          update: 'Update Employee',
-          create: 'Create Employee'
+          update: 'Update Sparepart',
+          create: 'Create Sparepart'
         },
-        tempEmployee: {
-         userId: '',
-         name: '',
-         gender: '',
-         street: '',
-         badgeNumber: ''
+        tempSparepart: {
+         kode: '',
+         name: ''
         }
       }
     },
@@ -98,13 +83,12 @@
     },
     methods: {
       getList() {
-        //查询列表
-        if (!this.hasPerm('employee:list')) {
+        if (!this.hasPerm('sparepart:list')) {
           return
         }
         this.listLoading = true;
         this.api({
-          url: "/employee/listEmployee",
+          url: "/sparepart/listSparePart",
           method: "get",
           params: this.listQuery
         }).then(data => {
@@ -128,38 +112,34 @@
         return (this.listQuery.pageNum - 1) * this.listQuery.pageRow + $index + 1
       },
       showCreate() {
-        this.tempEmployee.userId = "";
-        this.tempEmployee.name = "";
-        this.tempEmployee.street = "";
-        this.tempEmployee.gender = "";
+        this.tempSparepart.kode = "";
+        this.tempSparepart.name = "";
         this.dialogStatus = "create"
         this.dialogFormVisible = true
       },
-      showUpdate($index,$row) {
-        let employee = this.list[$index];
-        this.tempEmployee.id = this.list[$index].id;
-        this.tempEmployee.name = employee.name;
-        this.tempEmployee.userId = employee.user_id;
-        this.tempEmployee.gender = employee.gender;
-        this.tempEmployee.street = employee.street;
+      showUpdate($index) {
+        let sparepart = this.list[$index];
+        this.tempSparepart.id = this.list[$index].id;
+        this.tempSparepart.kode = sparepart.kode;
+        this.tempSparepart.name = sparepart.name;
         this.dialogStatus = "update"
         this.dialogFormVisible = true
       },
-      createEmployee() {
+      createSparepart() {
         this.api({
-          url: "/employee/addEmployee",
+          url: "/sparepart/addSparePart",
           method: "post",
-          data: this.tempEmployee
+          data: this.tempSparepart
         }).then(() => {
           this.getList();
           this.dialogFormVisible = false
         })
       },
-      updateEmployee() {
+      updateSparepart() {
         this.api({
-          url: "/employee/updateEmployee",
+          url: "/sparepart/updateSparePart",
           method: "post",
-          data: this.tempEmployee
+          data: this.tempSparepart
         }).then(() => {
           this.getList();
           this.dialogFormVisible = false

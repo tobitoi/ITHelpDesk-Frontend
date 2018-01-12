@@ -39,12 +39,18 @@
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form class="small-space" :model="tempArticle" label-position="left" label-width="60px"
+      <el-form class="small-space" :model="tempArticle" label-position="left" label-width="120px"
                style='width: 300px; margin-left:50px;'>
+
+        <el-form-item label="No Ticket">
+                  <el-input type="text" placeholder = "2003" disabled>
+                  </el-input>
+                </el-form-item>
         <el-form-item label="文章">
           <el-input type="text" v-model="tempArticle.content">
           </el-input>
         </el-form-item>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
