@@ -75,6 +75,16 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <el-upload
+          class="upload-demo"
+          action="/reporter/uploadImage"
+          :on-preview="handlePreview"
+          :on-remove="handleRemove"
+          :file-list="fileList2"
+          list-type="picture">
+          <el-button size="small" type="primary">Click to upload</el-button>
+          <div slot="tip" class="el-upload__tip">jpg/png files with a size less than 500kb</div>
+        </el-upload>
        </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">Cancel</el-button>
@@ -88,12 +98,14 @@
   export default {
     data() {
       return {
-        totalCount: 0, //分页组件--数据总条数
-        list: [],//表格的数据
-        listLoading: false,//数据加载等待动画
+        fileList2:[{name: 'food.jpeg',
+         url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
+        totalCount: 0,
+        list: [],
+        listLoading: false,
         listQuery: {
-          pageNum: 1,//页码
-          pageRow: 50,//每页条数
+          pageNum: 1,
+          pageRow: 50,
           name: ''
         },
         tools: [],
@@ -165,6 +177,12 @@
       getIndex($index) {
         //表格序号
         return (this.listQuery.pageNum - 1) * this.listQuery.pageRow + $index + 1
+      },
+      handleRemove(file, fileList) {
+        console.log(file, fileList);
+      },
+      handlePreview(file) {
+        console.log(file);
       },
       showCreate() {
         this.tempReporter.name = "";
