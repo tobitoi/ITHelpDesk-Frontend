@@ -78,10 +78,9 @@
         <el-upload
           class="upload-demo"
           action="http://localhost:8080/uploadImage/upload"
-          :show-file-list="false"
-          :on-success="handleAvatarSuccess">
-          <img v-if="tempReporter.avatar" :src="global_.OSS+tempReporter.avatar" class ="avatar">
-          <i v-else  class= "el-icon-plus avatar-uploader-icon"avatar-uploader-icon</i>
+          :show-file-list="true"
+          :on-success="handleAvatarSuccess"
+          list-type="picture">
           <el-button size="small" type="primary">Click to upload</el-button>
           <div slot="tip" class="el-upload__tip">jpg/png files with a size less than 500kb</div>
         </el-upload>
@@ -195,6 +194,7 @@
         this.tempReporter.date = "";
         this.tempReporter.toolsId = "";
         this.tempReporter.problemsId = "";
+        this.tempReporter.avatar="";
         this.dialogStatus = "create"
         this.dialogFormVisible = true
       },
@@ -205,6 +205,8 @@
         this.tempReporter.date = reporter.date;
         this.tempReporter.toolsId = reporter.tools_id;
         this.tempReporter.problemsId = reporter.problems_id;
+        this.tempReporter.avatar = reporter.imageUrl;
+        console.log(reporter);
         this.tempReporter.confirm = '1'
         this.dialogStatus = "update"
         this.dialogFormVisible = true
