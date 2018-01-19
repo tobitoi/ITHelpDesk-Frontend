@@ -77,11 +77,11 @@
         </el-form-item>
         <el-upload
           class="upload-demo"
-          action="/reporter/uploadImage"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
-          :file-list="fileList2"
-          list-type="picture">
+          action="http://localhost:8080/uploadImage/upload"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess">
+          <img v-if="tempReporter.avatar" :src="global_.OSS+tempReporter.avatar" class ="avatar">
+          <i v-else  class= "el-icon-plus avatar-uploader-icon"avatar-uploader-icon</i>
           <el-button size="small" type="primary">Click to upload</el-button>
           <div slot="tip" class="el-upload__tip">jpg/png files with a size less than 500kb</div>
         </el-upload>
@@ -121,7 +121,8 @@
          date:'',
          toolsId:'',
          problemsId:'',
-         confirm:''
+         confirm:'',
+         avatar:''
         }
       }
     },
@@ -184,6 +185,11 @@
       handlePreview(file) {
         console.log(file);
       },
+      handleAvatarSuccess(res,file){
+      let url = res.returnData.fileName;
+      this.tempReporter.avatar = url;
+      },
+
       showCreate() {
         this.tempReporter.name = "";
         this.tempReporter.date = "";
@@ -203,6 +209,7 @@
         this.dialogStatus = "update"
         this.dialogFormVisible = true
       },
+
       createReporter() {
         this.api({
           url: "/reporter/addReporter",
@@ -213,6 +220,7 @@
           this.dialogFormVisible = false
         })
       },
+
       updateReporter() {
         this.api({
           url: "/reporter/updateReporter",
